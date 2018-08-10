@@ -33,6 +33,8 @@ CObjectHandler::CObjectHandler		()
 {
 	m_planner					= xr_new<CObjectHandlerPlanner>();
 	m_inventory_actual			= false;
+	m_hammer_is_clutched = false;
+	m_clutched_hammer_enabled = false;
 //	m_last_enemy_for_best_weapon= 0;
 }
 

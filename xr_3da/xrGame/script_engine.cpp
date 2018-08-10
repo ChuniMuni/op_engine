@@ -441,12 +441,12 @@ void CScriptEngine::collect_all_garbage	()
 
 DLL_API void log_script_error(LPCSTR format, ...)
 {
-	string1024 line_buf;
+
 	va_list mark;	
 	va_start(mark, format);
-	//int sz = _vsnprintf(line_buf, sizeof(line_buf)-1, format, mark); 	
-	line_buf[sizeof(line_buf) - 1] = 0;
+	string4096 buf;
+	_vsnprintf(buf, sizeof(buf) - 1, format, mark); buf[sizeof(buf) - 1] = 0;
 	va_end(mark);
 
-	ai().script_engine().script_log(ScriptStorage::ELuaMessageType::eLuaMessageTypeError, line_buf);
+	ai().script_engine().script_log(ScriptStorage::ELuaMessageType::eLuaMessageTypeError, buf);
 }

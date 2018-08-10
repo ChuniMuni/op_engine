@@ -641,7 +641,6 @@ void SGameTaskKey::save(IWriter &stream)
 	OBJECTIVE_VECTOR_IT it_e	= game_task->m_Objectives.end();
 	for(;it!=it_e;++it)
 		save_data(*it, stream);
-
 }
 
 void SGameTaskKey::load(IReader &stream)
@@ -653,7 +652,6 @@ void SGameTaskKey::load(IReader &stream)
 	load_data(game_task->m_TimeToComplete,	stream);
 
 	load_data(game_task->m_Title,			stream);
-
 	u32 cnt;
 	load_data(cnt, stream);
 

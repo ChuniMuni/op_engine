@@ -52,6 +52,8 @@ public:
 protected:
 	ALife::_TIME_ID			m_dwGrenadeRemoveTime;
 	ALife::_TIME_ID			m_dwGrenadeIndependencyTime;
+
+	bool AllowThreatenSprint() override { return true; } //с гранатой бег не прерывать при броске
 protected:
 	HUD_SOUND				sndCheckout;
 	ESoundTypes				m_eSoundCheckout;

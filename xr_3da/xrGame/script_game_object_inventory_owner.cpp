@@ -341,9 +341,11 @@ void CScriptGameObject::UnloadMagazine		()
 	}
 
 	CAI_Stalker				*stalker = smart_cast<CAI_Stalker*>(weapon_magazined->H_Parent());
-	if (stalker && stalker->hammer_is_clutched())
+	if (stalker && stalker->g_Alive() && stalker->hammer_is_clutched())
+	{
+		//winsor wtf for dead stalker?????
 		return;
-
+	}
 	weapon_magazined->UnloadMagazine	(false);
 }
 //

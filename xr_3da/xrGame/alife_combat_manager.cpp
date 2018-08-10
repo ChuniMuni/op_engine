@@ -462,7 +462,7 @@ void CALifeCombatManager::kill_entity	(CSE_ALifeMonsterAbstract *l_tpALifeMonste
 	GameGraph::_GRAPH_ID					l_tGraphID1 = l_tpALifeMonsterAbstract->m_tGraphID;
 	assign_death_position					(l_tpALifeMonsterAbstract, l_tGraphID, schedulable);
 	l_tpALifeMonsterAbstract->vfDetachAll	();
-	R_ASSERT								(l_tpALifeMonsterAbstract->children.empty());
+	//R_ASSERT								(l_tpALifeMonsterAbstract->children.empty());
 	scheduled().remove						(l_tpALifeMonsterAbstract);
 	if (l_tpALifeMonsterAbstract->m_tGraphID != l_tGraphID1) {
 		graph().remove						(l_tpALifeMonsterAbstract,l_tGraphID1);

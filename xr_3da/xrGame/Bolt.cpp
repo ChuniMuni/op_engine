@@ -16,6 +16,11 @@ CBolt::~CBolt(void)
 {
 }
 
+void CBolt::Load(LPCSTR section)
+{
+	inherited::Load(section);
+}
+
 void CBolt::OnH_A_Chield() 
 {
 	inherited::OnH_A_Chield();

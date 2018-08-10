@@ -665,8 +665,8 @@ void CWeapon::save(NET_Packet &output_packet)
 	save_data		(m_flagsAddOnState, output_packet);
 	save_data		(m_ammoType,		output_packet);
 	save_data		(m_bZoomMode,		output_packet);
-	float reservedData=0.1f; 
-	save_data		(reservedData,	output_packet);
+	//float reservedData=0.1f; 
+	save_data		(m_fRTZoomFactor,	output_packet);
 }
 
 void CWeapon::load(IReader &input_packet)
@@ -680,8 +680,8 @@ void CWeapon::load(IReader &input_packet)
 	load_data		(m_bZoomMode,		input_packet);
 	if (m_bZoomMode)	OnZoomIn();
 		else			OnZoomOut();
-	float reservedData=0;
-	load_data		(reservedData,	input_packet);
+	//float reservedData=0;
+	load_data		(m_fRTZoomFactor,	input_packet);
 }
 
 

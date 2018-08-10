@@ -212,6 +212,7 @@ void CUIPdaWnd::SetActiveSubdialog(EPdaTabs section)
 		g_pda_info_state		&= ~pda_section::diary;
 		break;
 	case eptContacts:
+		UIPdaContactsWnd->Reload();
 		m_pActiveDialog			= smart_cast<CUIWindow*>(UIPdaContactsWnd);
 		InventoryUtilities::SendInfoToActor("ui_pda_contacts");
 		g_pda_info_state		&= ~pda_section::contacts;

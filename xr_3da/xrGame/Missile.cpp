@@ -24,6 +24,8 @@
 
 #include "ui/UIProgressShape.h"
 #include "ui/UIXmlInit.h"
+#include "WeaponKnife.h"
+#include "bolt.h"
 
 CUIProgressShape* g_MissileForceShape = NULL;
 
@@ -286,7 +288,8 @@ void CMissile::State(u32 state)
 		} break;
 	case MS_THREATEN:
 		{
-			g_actor->set_state_wishful(g_actor->get_state_wishful() & (~mcSprint) );
+			if (!AllowThreatenSprint())
+				g_actor->set_state_wishful(g_actor->get_state_wishful() & (~mcSprint));
 			m_bPending = true;
 			m_fThrowForce = m_fMinForce;
 			m_pHUD->animPlay(m_pHUD->animGet(*m_sAnimThrowBegin), TRUE, this, GetState());

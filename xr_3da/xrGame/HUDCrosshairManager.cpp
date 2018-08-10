@@ -83,9 +83,13 @@ void CHUDCrosshairManager::ReInitArmedCrosshair()
 		shared_str tex_name;
 		if (g_actor)
 		{
-			CWeapon* pWeapon = smart_cast<CWeapon*>(g_actor->inventory().ActiveItem());
-			if (pWeapon && pSettings->line_exist(pWeapon->cNameSect(), "custom_crosshair"))
-				tex_name = pSettings->r_string(pWeapon->cNameSect(), "custom_crosshair");
+			u32 naSlot = g_actor->inventory().GetNextActiveSlot();
+			if (naSlot!= NO_ACTIVE_SLOT)
+			{
+				CWeapon* pWeapon = smart_cast<CWeapon*>(g_actor->inventory().m_slots[naSlot].m_pIItem);
+				if (pWeapon && pSettings->line_exist(pWeapon->cNameSect(), "custom_crosshair"))
+					tex_name = pSettings->r_string(pWeapon->cNameSect(), "custom_crosshair");
+			}
 		}
 		if (tex_name.size()==0)
 			tex_name = GetCrosshairTex(current_unarmed_crosshair).c_str();

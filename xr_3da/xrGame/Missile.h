@@ -73,6 +73,8 @@ protected:
 	//для сети
 	virtual void			StartIdleAnim		();
 	virtual void			net_Relcase			(CObject* O );
+
+	virtual bool AllowThreatenSprint() { return false; };
 protected:
 
 	bool					m_throw;

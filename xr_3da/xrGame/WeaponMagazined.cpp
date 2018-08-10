@@ -383,48 +383,36 @@ void CWeaponMagazined::OnMagazineEmpty()
 
 void CWeaponMagazined::UnloadMagazine(bool spawn_ammo)
 {
-	xr_map<LPCSTR, u16> l_ammo;
-	
-	while(!m_magazine.empty()) 
+	if (spawn_ammo)
 	{
-		CCartridge &l_cartridge = m_magazine.back();
-		xr_map<LPCSTR, u16>::iterator l_it;
-		for(l_it = l_ammo.begin(); l_ammo.end() != l_it; ++l_it) 
+		xr_map<LPCSTR, u16> ammos;
+		std::for_each(m_magazine.begin(), m_magazine.end(), [&](CCartridge cartridge)
 		{
-			if(!xr_strcmp(*l_cartridge.m_ammoSect, l_it->first)) 
-			{ 
-				 ++(l_it->second); 
-				 break; 
-			}
-		}
-
-		if(l_it == l_ammo.end()) l_ammo[*l_cartridge.m_ammoSect] = 1;
-		m_magazine.pop_back(); 
-		--iAmmoElapsed;
-	}
-
-	VERIFY((u32)iAmmoElapsed == m_magazine.size());
-	
-	if (!spawn_ammo)
-		return;
-
-	xr_map<LPCSTR, u16>::iterator l_it;
-	for(l_it = l_ammo.begin(); l_ammo.end() != l_it; ++l_it) 
-	{
-		if (m_pCurrentInventory)
+			if (!ammos[*cartridge.m_ammoSect])
+				ammos[*cartridge.m_ammoSect] = 1;
+			else
+				ammos[*cartridge.m_ammoSect]++;
+		});
+		std::for_each(ammos.begin(), ammos.end(), [&](std::pair<LPCSTR, u16> ammo)
 		{
-			CWeaponAmmo *l_pA = smart_cast<CWeaponAmmo*>(m_pCurrentInventory->GetAny(l_it->first));
-			if(l_pA) 
+			if (m_pCurrentInventory)
 			{
-				u16 l_free = l_pA->m_boxSize - l_pA->m_boxCurr;
-				l_pA->m_boxCurr = l_pA->m_boxCurr + (l_free < l_it->second ? l_free : l_it->second);
-				l_it->second = l_it->second - (l_free < l_it->second ? l_free : l_it->second);
+				CWeaponAmmo *exist_ammo_box = smart_cast<CWeaponAmmo*>(m_pCurrentInventory->GetAny(ammo.first));
+				if (exist_ammo_box)
+				{
+					u16 exist_free_count = exist_ammo_box->m_boxSize - exist_ammo_box->m_boxCurr;
+					exist_ammo_box->m_boxCurr = exist_ammo_box->m_boxCurr + (exist_free_count < ammo.second ? exist_free_count : ammo.second);
+					ammo.second = ammo.second - (exist_free_count < ammo.second ? exist_free_count : ammo.second);
+				}
 			}
-		}
-		if(l_it->second && !unlimited_ammo()) SpawnAmmo(l_it->second, l_it->first);
+			if (ammo.second && !unlimited_ammo()) 
+				SpawnAmmo(ammo.second, ammo.first);
+		});
 	}
+	iAmmoElapsed = 0;
+	m_magazine.clear_and_free();
 	if (m_pCurrentInventory)
-		m_pCurrentInventory->m_bForceRecalcAmmos=true;
+		m_pCurrentInventory->m_bForceRecalcAmmos = true;
 }
 
 void CWeaponMagazined::ReloadMagazine() 
@@ -1370,7 +1358,8 @@ void CWeaponMagazined::InitAddons()
 			else
 				Msg("! ERROR can't find static for scope texture in config!");
 		}
-		m_fRTZoomFactor=m_fScopeZoomFactor; //начальное значение
+		if (fsimilar(m_fRTZoomFactor,g_fov) || fsimilar(m_fRTZoomFactor, 0.1f))
+			m_fRTZoomFactor=m_fScopeZoomFactor; //начальное значение
 	}
 	else
 	{

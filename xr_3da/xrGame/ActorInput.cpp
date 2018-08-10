@@ -30,6 +30,7 @@
 #include "ui/UIInventoryWnd.h"
 #include "WeaponMagazinedWGrenade.h"
 #include "QuickSlots.h"
+#include "bolt.h"
 
 bool g_bAutoClearCrouch = true;
 bool g_bForceCrouch = false;
@@ -47,16 +48,9 @@ void CActor::IR_OnKeyboardPress(int cmd)
 	{
 	case kWPN_FIRE:
 		{
-			if (inventory().ActiveItem())
-			{
-				CWeaponKnife* knife=smart_cast<CWeaponKnife*>(inventory().ActiveItem());
-				if (!knife)
-				{
-					mstate_wishful &=~mcSprint;
-					break;
-				}
+			CInventoryItem* item = inventory().ActiveItem();
+			if (smart_cast<CWeaponKnife*>(item)) //при атаке ножом бег не прерывать
 				break;
-			}
 			mstate_wishful &=~mcSprint;
 			//-----------------------------
 			if (OnServer())

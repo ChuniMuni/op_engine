@@ -867,10 +867,10 @@ void npc_take_item(CScriptGameObject* pself, CScriptGameObject* pItem)
 			CGameObject::u_EventSend(P);
 		}
 		else
-			log_script_error("! WARNING npc_take_item: item_id[%d] not CInventoryItem", pItem->object().ID());
+			log_script_error("! WARNING npc_take_item: item_id[%s|%d] not CInventoryItem", pItem->object().Name(),pItem->object().ID());
 	}
 	else
-		log_script_error("! WARNING npc_take_item: item_id[%d] not CAI_Stalker", pself->object().ID());
+		log_script_error("! WARNING npc_take_item: pself[%s|%d] not CAI_Stalker", pself->object().Name(), pself->object().ID());
 }
 
 class_<CScriptGameObject> &script_register_game_object3(class_<CScriptGameObject> &instance)

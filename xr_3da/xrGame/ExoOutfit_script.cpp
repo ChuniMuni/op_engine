@@ -14,13 +14,39 @@ bool script_is_charged(CExoOutfit *exo)
 	return exo->isBatteryPresent();
 }
 
+luabind::object script_get_charge_info(CExoOutfit *exo)
+{
+	luabind::object lua_table = luabind::newtable(ai().script_engine().lua());
+	if (!exo)
+	{
+		Msg("! ERROR CExoOutfit::script_get_charge_info invlid input object");
+		return luabind::object();
+	}
+	if (exo->isBatteryPresent())
+	{
+		lua_table["section"] = exo->m_sCurrentBattery.c_str();
+		lua_table["charge"] = exo->m_fCurrentCharge;
+	}
+	return lua_table;
+}
+
+void script_update_charge(CExoOutfit *exo,float delta)
+{
+	if (!exo)
+	{
+		Msg("! ERROR CExoOutfit::script_update_charge invlid input object");
+		return;
+	}
+	exo->UpdateCharge(delta);
+}
+
 luabind::object script_discharge(CExoOutfit *exo, bool spawn = false)
 {
 	luabind::object lua_table = luabind::newtable(ai().script_engine().lua());
 	if (!exo)
 	{
 		Msg("! ERROR CExoOutfit::script_discharge invlid input object");
-		return lua_table;
+		return luabind::object();
 	}
 	lua_table["section"] = exo->m_sCurrentBattery.c_str();
 	lua_table["charge"]= exo->m_fCurrentCharge;
@@ -34,7 +60,9 @@ void CExoOutfit::script_register(lua_State *L)
 		[
 			luabind::class_<CExoOutfit>("CExoOutfit")
 			.def("is_charged", &script_is_charged)
+			.def("get_charge_info",&script_get_charge_info)
 			.def("discharge", &script_discharge)
+			.def("update_charge", &script_update_charge)
 			//.def("charge", &CExoOutfit::PutToBatterySlot)
 		];
 }

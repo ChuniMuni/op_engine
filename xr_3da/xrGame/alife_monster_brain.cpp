@@ -188,7 +188,16 @@ void CALifeMonsterBrain::update				()
 	select_task						();
 	
 	if (object().m_smart_terrain_id != 0xffff)
-		process_task				();
+	{
+		if (!ai().alife().smart_terrains().object(object().m_smart_terrain_id))
+		{
+			Msg("~ WARNING smart_id[%d] not exist for npc[%s] in alife smart_terrains registry. cleaned.", object().m_smart_terrain_id, object().name_replace());
+			object().m_smart_terrain_id = 0xffff;
+			default_behaviour();
+		}
+		else
+			process_task();
+	}
 	else
 		default_behaviour			();
 

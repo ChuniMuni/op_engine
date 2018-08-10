@@ -18,6 +18,11 @@ public:
 	virtual					~CEntityConditionSimple	();
 
 	IC float				GetHealth				() const			{return m_fHealth;}
+	/*IC void SetHealth(float health) 
+	{
+		clamp<float>(health, 0.0, 1.0);  m_fHealth = health;
+	}*/
+
 	IC float 				GetMaxHealth			() const			{return m_fHealthMax;}
 	IC float&				health					()					{return	m_fHealth;}
 	IC float&				max_health				()					{return	m_fHealthMax;}

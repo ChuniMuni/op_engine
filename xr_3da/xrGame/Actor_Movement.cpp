@@ -580,7 +580,6 @@ bool CActor::CanSprint			()
 						&& CanRun()
 						&& !(mstate_real&mcLStrafe || mstate_real&mcRStrafe)
 						&& InventoryAllowSprint();
-
 	return can_Sprint;
 }
 
