@@ -78,23 +78,30 @@ void				smem_container::dump			()
 	cs.Leave		();
 }
 
-u32					smem_container::stat_economy	()
+smem_stats			smem_container::stat_economy	()
 {
-	cs.Enter		();
-	cdb::iterator	it		= container.begin	();
-	cdb::iterator	end		= container.end		();
-	s64				counter	= 0;
-	counter			-= sizeof(*this);
-	counter			-= sizeof(cdb::allocator_type);
-	const int		node_size = 20;
-	for (; it!=end; it++)	{
-		counter		-= 16;
-		counter		-= node_size;
-		counter		+= s64((s64((*it)->dwReference) - 1)*s64((*it)->dwLength));
-	}
-	cs.Leave		();
+	size_t count = 0;
+	size_t lengths = 0;
+	size_t overhead = 0;
+	size_t saved = 0;
 
-	return			u32(s64(counter)/s64(1024));
+	cs.Enter();
+	cdb::iterator	it = container.begin();
+	cdb::iterator	end = container.end();
+
+	count = container.size();
+
+	const size_t header_size = 4*sizeof(u32);
+	overhead = container.size() * header_size + sizeof(*this);
+
+	for (; it != end; it++) {
+		const smem_value* sv = *it;
+		lengths += sv->dwLength;
+		saved += sv->dwReference ? (sv->dwReference - 1)*(sv->dwLength + 1) : 0;
+	}
+	cs.Leave();
+
+	return std::make_tuple(count, lengths, overhead, saved);
 }
 
 smem_container::~smem_container	()
