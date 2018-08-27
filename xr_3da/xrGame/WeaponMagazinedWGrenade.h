@@ -37,7 +37,7 @@ public:
 	virtual bool	Detach(const char* item_section_name, bool b_spawn_item, float item_condition = 1.0f);
 	virtual bool	CanAttach(PIItem pIItem);
 	virtual bool	CanDetach(const char* item_section_name);
-	virtual void	InitAddons();
+	virtual void	InitAddons(bool zfInit =false);
 	void LoadCurrentZoomOffset();
 	virtual bool	UseScopeTexture();
 	virtual	float	CurrentZoomFactor	();

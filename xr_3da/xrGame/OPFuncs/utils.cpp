@@ -57,14 +57,14 @@ namespace OPFuncs
 		return name;
 	}
 
-	void UnloadWeapon(CWeaponMagazined* weapon)
+	void UnloadWeapon(CWeaponMagazined* weapon, bool spawn)
 	{
-		weapon->UnloadMagazine();
+		weapon->UnloadMagazine(spawn);
 		CWeaponMagazinedWGrenade* weaponWithGrenade = smart_cast<CWeaponMagazinedWGrenade*>(weapon);
 		if (weaponWithGrenade) //unload other ammos
 		{
 			weaponWithGrenade->PerformSwitchGL();
-			weaponWithGrenade->UnloadMagazine();
+			weaponWithGrenade->UnloadMagazine(spawn);
 			weaponWithGrenade->PerformSwitchGL();
 		}
 	}

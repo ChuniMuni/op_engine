@@ -360,6 +360,7 @@ public:
 	bool				IsInvBoxEmpty();
 #pragma endregion 
 #pragma region работа с инфопорциями 
+	void AddArticle(LPCSTR article_id);
 	bool				GiveInfoPortion(LPCSTR info_id);
 	bool				DisableInfoPortion(LPCSTR info_id);
 	bool				GiveGameNews(LPCSTR news, LPCSTR texture_name, Frect tex_rect, int delay, int show_time);
@@ -442,7 +443,7 @@ public:
 	bool get_grenade_mode();
 	LPCSTR GetCurrentAmmoSection();
 	u32 GetCurrentAmmoType();
-	void FullUnloadWeapon();
+	void FullUnloadWeapon(luabind::object const &param);
 	float GetSilencerCondition();
 	void SetSilencerCondition(float condition);
 	LPCSTR detach_scope(luabind::object const &param);

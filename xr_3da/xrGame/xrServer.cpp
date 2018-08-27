@@ -749,7 +749,7 @@ CSE_Abstract*	xrServer::entity_Create		(LPCSTR name)
 void			xrServer::entity_Destroy	(CSE_Abstract *&P)
 {
 #ifdef MORE_SPAM
-	Msg							("xrServer::entity_Destroy : [%d][%s][%s]",P->ID,P->name(),P->name_replace());
+	Msg("xrServer::entity_Destroy : [%d][%s][%s]", P->ID, P->name(), P->name_replace());
 #endif
 	R_ASSERT					(P);
 	entities.erase				(P->ID);

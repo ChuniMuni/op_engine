@@ -760,14 +760,23 @@ void CScriptGameObject::SetAmmoLeft(u16 count)
 	ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "call [set_ammo_left] for non-CWeaponAmmo object!");
 }
 
-void CScriptGameObject::FullUnloadWeapon()
+void CScriptGameObject::FullUnloadWeapon(luabind::object const &param)
 {
+	if (!param.is_valid())
+	{
+		ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "invalid input param [full_unload_weapon]!");
+		return;
+	}
+	bool spawn = true;
+	if (param.type() == LUA_TBOOLEAN)
+		spawn = luabind::object_cast<bool>(param);
+
 	CWeapon		*weapon = smart_cast<CWeapon*>(&object());
 	if (weapon)
 	{
 		CWeaponMagazined		*weaponM = smart_cast<CWeaponMagazined*>(weapon);
 		if (weaponM) {
-			OPFuncs::UnloadWeapon(weaponM);
+			OPFuncs::UnloadWeapon(weaponM, spawn);
 			return;
 		}
 	}

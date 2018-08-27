@@ -1124,7 +1124,7 @@ bool CWeaponMagazined::AttachScopeSection(const char* item_section_name, bool si
 			if (singleAttach)//если аттач только одного итема а не всех подр€д
 			{
 				UpdateAddonsVisibility();
-				InitAddons();
+				InitAddons(true);
 			}
 			return true;
 		}
@@ -1190,7 +1190,7 @@ bool CWeaponMagazined::Attach(PIItem pIItem, bool b_send_event)
 		};
 
 		UpdateAddonsVisibility();
-		InitAddons();
+		InitAddons(true);
 
 		return true;
 	}
@@ -1281,7 +1281,7 @@ shared_str GenScopeTextureName(shared_str startTextureName,shared_str openPostfi
 	return final_scope_texture;
 }
 
-void CWeaponMagazined::InitAddons()
+void CWeaponMagazined::InitAddons(bool zfInit)
 {
 	//////////////////////////////////////////////////////////////////////////
 	// ѕрицел
@@ -1358,7 +1358,7 @@ void CWeaponMagazined::InitAddons()
 			else
 				Msg("! ERROR can't find static for scope texture in config!");
 		}
-		if (fsimilar(m_fRTZoomFactor,g_fov) || fsimilar(m_fRTZoomFactor, 0.1f))
+		if (fsimilar(m_fRTZoomFactor,g_fov) || fsimilar(m_fRTZoomFactor, 0.1f) || zfInit)
 			m_fRTZoomFactor=m_fScopeZoomFactor; //начальное значение
 	}
 	else
@@ -1408,7 +1408,7 @@ void CWeaponMagazined::InitAddons()
 		LoadLights		(*cNameSect(), "");
 	}
 
-	inherited::InitAddons();
+	inherited::InitAddons(zfInit);
 }
 
 void CWeaponMagazined::ApplySilencerKoeffs	()

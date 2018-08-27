@@ -227,7 +227,7 @@ public:
 			void UpdateAddonsVisibility();
 			void UpdateHUDAddonsVisibility();
 	//инициализация свойств присоединенных аддонов
-	virtual void InitAddons();
+	virtual void InitAddons(bool zfInit =false);
 
 	//для отоброажения иконок апгрейдов в интерфейсе
 	int	GetScopeX() {return m_iScopeX;}

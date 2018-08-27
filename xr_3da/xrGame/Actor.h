@@ -131,9 +131,10 @@ public:
 
 protected:
 //	virtual void AddMapLocationsFromInfo (const CInfoPortion* info_portion) const;
+
 	virtual void AddEncyclopediaArticle	(const CInfoPortion* info_portion) const;
 	virtual void AddGameTask			(const CInfoPortion* info_portion) const;
-protected:
+
 struct SDefNewsMsg{
 		GAME_NEWS_DATA*	news_data;
 		u32				time;
@@ -142,6 +143,7 @@ struct SDefNewsMsg{
 	xr_vector<SDefNewsMsg> m_defferedMessages;
 	void UpdateDefferedMessages();	
 public:	
+	void AddArticle(shared_str article_id) const;
 	void			AddGameNews_deffered	 (GAME_NEWS_DATA& news_data, u32 delay);
 	virtual void	AddGameNews				 (GAME_NEWS_DATA& news_data);
 protected:

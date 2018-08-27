@@ -38,6 +38,14 @@
 #include "UI.h"
 #include "Artifact.h"
 
+void CScriptGameObject::AddArticle(LPCSTR article_id)
+{
+	CActor* actor = smart_cast<CActor*>(&object());
+	if (!actor)
+		return;
+	actor->AddArticle(article_id);
+}
+
 bool CScriptGameObject::GiveInfoPortion(LPCSTR info_id)
 {
 	CInventoryOwner* pInventoryOwner = smart_cast<CInventoryOwner*>(&object());

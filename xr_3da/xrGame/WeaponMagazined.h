@@ -140,7 +140,7 @@ public:
 	bool			CanLoadAmmo			(CWeaponAmmo *pAmmo,bool checkFullMagazine=false) override;
 	void			LoadAmmo			(CWeaponAmmo *pAmmo) override;
 
-	virtual void	InitAddons();
+	virtual void	InitAddons(bool zfInit =false);
 
 	virtual bool	Action			(s32 cmd, u32 flags);
 	virtual void	onMovementChanged	(ACTOR_DEFS::EMoveCommand cmd);

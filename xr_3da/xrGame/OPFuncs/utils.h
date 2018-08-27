@@ -25,7 +25,7 @@ namespace OPFuncs
 	xr_vector<LPCSTR> getStringsFromLua(luabind::object const& table);
 	std::string getComplexString(std::string untranslatedString,PIItem item,std::string untranslatedString2="",std::string untranslatedString3="");
 	std::string getAddonInvName(std::string addonName);
-	void UnloadWeapon(CWeaponMagazined* weapon);
+	void UnloadWeapon(CWeaponMagazined* weapon, bool spawn = true);
 	void DetachAddon(CInventoryItem* item,const char* addon_name,bool force_spawn=true);
 	void AttachAddon(CInventoryItem* item_to_upgrade,CInventoryItem* addon);
 	bool IsUsedInInventory(CInventoryOwner* owner,CInventoryItem* pItem);

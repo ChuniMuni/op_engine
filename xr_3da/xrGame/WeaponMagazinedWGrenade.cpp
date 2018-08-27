@@ -248,6 +248,8 @@ bool CWeaponMagazinedWGrenade::SwitchMode(bool switchOnLoad)
 		return false;
 	if (IsGrenadeLauncherAttached() && is_fake_scope(m_sGrenadeLauncherName.c_str()))
 		return false;
+	if (IsZoomEnabled() && IsZoomed())
+		OnZoomOut();
 	m_bPending				= true;
 	PerformSwitchGL			(switchOnLoad);
 	if (m_bGrenadeMode)
@@ -688,7 +690,7 @@ bool CWeaponMagazinedWGrenade::Attach(PIItem pIItem, bool b_send_event)
 				pIItem->object().DestroyObject	();
 		}
 		UpdateAddonsVisibility	();
-		InitAddons();
+		InitAddons(true);
 		if (fake_scope)
 		{
 			if (pSettings->line_exist(addon_section, "scope_zoom_factor"))
@@ -760,9 +762,9 @@ void CWeaponMagazinedWGrenade::LoadCurrentZoomOffset()
 	}
 }
 
-void CWeaponMagazinedWGrenade::InitAddons()
+void CWeaponMagazinedWGrenade::InitAddons(bool zfInit)
 {	
-	inherited::InitAddons();
+	inherited::InitAddons(zfInit);
 
 	if(GrenadeLauncherAttachable() || CSE_ALifeItemWeapon::eAddonPermanent == m_eGrenadeLauncherStatus)
 	{

@@ -120,6 +120,7 @@ class_<CScriptGameObject> &script_register_game_object2(class_<CScriptGameObject
 		]
 
 		.def("give_info_portion",			&CScriptGameObject::GiveInfoPortion)
+		.def("add_article", &CScriptGameObject::AddArticle)
 		.def("disable_info_portion",		&CScriptGameObject::DisableInfoPortion)
 		.def("give_game_news",				(bool (CScriptGameObject::*)(LPCSTR,LPCSTR,Frect,int,int))(&CScriptGameObject::GiveGameNews))
 
