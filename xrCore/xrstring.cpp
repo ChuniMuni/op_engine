@@ -131,23 +131,28 @@ void		str_container::dump	()
 	cs.Leave	();
 }
 
-u32			str_container::stat_economy		()
+str_container_stats	str_container::stat_economy		()
 {
+	size_t count = 0;
+	size_t lengths = 0;
+	size_t overhead = 0;
+	size_t saved = 0;
+
 	cs.Enter	();
 	cdb::iterator	it		= container.begin	();
 	cdb::iterator	end		= container.end		();
-	int				counter	= 0;
-	counter			-= sizeof(*this);
-	counter			-= sizeof(cdb::allocator_type);
-	const int		node_size = 20;
-	for (; it!=end; it++)	{
-		counter		-= HEADER;
-		counter		-= node_size;
-		counter		+= int((int((*it)->dwReference) - 1)*int((*it)->dwLength + 1));
+
+	count = container.size();
+	overhead = container.size() * (sizeof(cdb::_Node) + HEADER) + sizeof(*this);
+
+	for (; it != end; it++) {
+		const str_value* sv = *it;
+		lengths += sv->dwLength + 1;
+		saved += sv->dwReference ? (sv->dwReference - 1)*(sv->dwLength + 1) : 0;
 	}
 	cs.Leave		();
 
-	return			u32(counter);
+	return std::make_tuple(count, lengths, overhead, saved);
 }
 
 str_container::~str_container		()

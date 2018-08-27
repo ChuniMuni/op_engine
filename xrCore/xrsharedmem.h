@@ -4,6 +4,8 @@
 
 #pragma pack(push,4)
 //////////////////////////////////////////////////////////////////////////
+typedef std::tuple<size_t, size_t, size_t, size_t> smem_stats;//! count, lengths, overhead, saved[BySharing]
+//////////////////////////////////////////////////////////////////////////
 #pragma warning(disable : 4200)
 struct		XRCORE_API	smem_value
 {
@@ -49,7 +51,7 @@ public:
 	smem_value*			dock			(u32 dwCRC, u32 dwLength, void* ptr);
 	void				clean			();
 	void				dump			();
-	u32					stat_economy	();
+	smem_stats			stat_economy	();
 #ifdef PROFILE_CRITICAL_SECTIONS
 						smem_container	():cs(MUTEX_PROFILE_ID(smem_container)){}
 #endif // PROFILE_CRITICAL_SECTIONS

@@ -432,11 +432,20 @@ int out_of_memory_handler	(size_t size)
 	Memory.mem_compact		();
 	u32						crt_heap		= mem_usage_impl((HANDLE)_get_heap_handle(),0,0);
 	u32						process_heap	= mem_usage_impl(GetProcessHeap(),0,0);
-	u32						eco_strings		= g_pStringContainer->stat_economy			();
-	u32						eco_smem		= g_pSharedMemoryContainer->stat_economy	();
+	str_container_stats		eco_strings		= g_pStringContainer->stat_economy			();
+	smem_stats				eco_smem		= g_pSharedMemoryContainer->stat_economy	();
 	log_vminfo();
 	Msg						("* [x-ray]: crt heap[%u K], process heap[%u K]",crt_heap/1024,process_heap/1024);
-	Msg						("* [x-ray]: economy: strings[%u K], smem[%u K]",eco_strings/1024,eco_smem);
+	Msg						("* [x-ray]: economy: strings[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+		, std::get<0>(eco_strings)
+		, std::get<1>(eco_strings) / 1024
+		, std::get<2>(eco_strings) / 1024
+		, std::get<3>(eco_strings) / 1024);
+	Msg						("* [x-ray]: economy: smem[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+		, std::get<0>(eco_smem)
+		, std::get<1>(eco_smem) / 1024
+		, std::get<2>(eco_smem) / 1024
+		, std::get<3>(eco_smem) / 1024);
 	Debug.fatal				(DEBUG_INFO,"Out of memory. Memory request: %zu K",size/1024);
 	return					1;
 }
@@ -452,11 +461,20 @@ void out_of_memory_handler_fragmentation_hint(const char* str_hr, const char* ex
 	}
 	u32 crt_heap = mem_usage_impl((HANDLE)_get_heap_handle(), 0, 0);
 	u32 process_heap = mem_usage_impl(GetProcessHeap(), 0, 0);
-	u32 eco_strings = g_pStringContainer->stat_economy();
-	u32 eco_smem = g_pSharedMemoryContainer->stat_economy();
+	str_container_stats eco_strings = g_pStringContainer->stat_economy();
+	smem_stats eco_smem = g_pSharedMemoryContainer->stat_economy();
 	log_vminfo();
 	Msg("* [x-ray]: crt heap[%u K], process heap[%u K]", crt_heap / 1024, process_heap / 1024);
-	Msg("* [x-ray]: economy: strings[%u K], smem[%u K]", eco_strings / 1024, eco_smem);
+	Msg("* [x-ray]: economy: strings[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+		, std::get<0>(eco_strings)
+		, std::get<1>(eco_strings) / 1024
+		, std::get<2>(eco_strings) / 1024
+		, std::get<3>(eco_strings) / 1024);
+	Msg("* [x-ray]: economy: smem[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+		, std::get<0>(eco_smem)
+		, std::get<1>(eco_smem) / 1024
+		, std::get<2>(eco_smem) / 1024
+		, std::get<3>(eco_smem) / 1024);
 	Msg("* [memory]: max allocatable block: [%zu K]", max_allocatable_block_size / 1024);
 	Debug.backend(str_hr, expr, e2, 0, file, line, function, ignore_always);
 }
@@ -921,14 +939,22 @@ LONG WINAPI UnhandledFilter	(_EXCEPTION_POINTERS *pExceptionInfo)
 		// print overall memory info
 		u32 crt_heap = mem_usage_impl((HANDLE)_get_heap_handle(), 0, 0);
 		u32 process_heap = mem_usage_impl(GetProcessHeap(), 0, 0);
-		u32 eco_strings = g_pStringContainer->stat_economy();
-		u32 eco_smem = g_pSharedMemoryContainer->stat_economy();
+		str_container_stats eco_strings = g_pStringContainer->stat_economy();
+		smem_stats eco_smem = g_pSharedMemoryContainer->stat_economy();
 		log_vminfo();
 		Msg("* [x-ray]: crt heap[%u K], process heap[%u K]", crt_heap / 1024, process_heap / 1024);
-		Msg("* [x-ray]: economy: strings[%u K], smem[%u K]", eco_strings / 1024, eco_smem);
-
+		Msg("* [x-ray]: economy: strings[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+			, std::get<0>(eco_strings)
+			, std::get<1>(eco_strings) / 1024
+			, std::get<2>(eco_strings) / 1024
+			, std::get<3>(eco_strings) / 1024);
+		Msg("* [x-ray]: economy: smem[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+			, std::get<0>(eco_smem)
+			, std::get<1>(eco_smem) / 1024
+			, std::get<2>(eco_smem) / 1024
+			, std::get<3>(eco_smem) / 1024);
 		// output str_dump.txt if string container is more than 512MB
-		if (eco_strings > 500 * 1024 * 1024)
+		if ((std::get<1>(eco_strings) + std::get<2>(eco_strings)) > 500 * 1024 * 1024)
 		{
 			// dump string to see what garbage rots there
 			g_pStringContainer->dump();

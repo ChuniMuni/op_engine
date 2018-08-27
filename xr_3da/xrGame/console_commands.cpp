@@ -141,8 +141,8 @@ public:
 		u32		_engine_lua		= engine_lua_memory_usage();
 		u32		_render			= ::Render->memory_usage();
 #endif // SEVERAL_ALLOCATORS
-		u32		_eco_strings	= g_pStringContainer->stat_economy			();
-		u32		_eco_smem		= g_pSharedMemoryContainer->stat_economy	();
+		str_container_stats _eco_strings = g_pStringContainer->stat_economy();
+		smem_stats	_eco_smem		= g_pSharedMemoryContainer->stat_economy();
 		u32		m_base=0,c_base=0,m_lmaps=0,c_lmaps=0;
 		
 		if (Device.Resources)	Device.Resources->_GetMemoryUsage	(m_base,c_base,m_lmaps,c_lmaps);
@@ -157,8 +157,18 @@ public:
 		Msg		("* [x-ray]: crt heap[%u K], process heap[%u K], game lua[%u K], engine lua[%u K], render[%u K]",_crt_heap/1024,_process_heap/1024,_game_lua/1024,_engine_lua/1024,_render/1024);
 #endif // SEVERAL_ALLOCATORS
 
-		Msg		("* [x-ray]: economy: strings[%u K], smem[%u K]",_eco_strings/1024,_eco_smem);
-		
+		Msg		("* [x-ray]: economy: strings[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+			, std::get<0>(_eco_strings)
+			, std::get<1>(_eco_strings) / 1024
+			, std::get<2>(_eco_strings) / 1024
+			, std::get<3>(_eco_strings) / 1024);
+
+		Msg		("* [x-ray]: economy: smem[count: %zu, lengths: %zu K, overhead: %zu K, saved: %zu K]"
+			, std::get<0>(_eco_smem)
+			, std::get<1>(_eco_smem) / 1024
+			, std::get<2>(_eco_smem) / 1024
+			, std::get<3>(_eco_smem) / 1024);
+
 		static int s_cnt = 0;
 		s_cnt++;
 		if (s_cnt >= 2)

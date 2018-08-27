@@ -5,7 +5,7 @@
 #pragma pack(push,4)
 //////////////////////////////////////////////////////////////////////////
 typedef const char*		str_c;
-
+typedef std::tuple<size_t, size_t, size_t, size_t> str_container_stats;//! count, lengths, overhead, saved[BySharing]
 //////////////////////////////////////////////////////////////////////////
 #pragma warning(disable : 4200)
 struct		XRCORE_API	str_value
@@ -32,7 +32,7 @@ public:
 	void				clean			();
 	void				dump			();
 	void				verify			();
-	u32					stat_economy	();
+	str_container_stats	stat_economy	();
 #ifdef PROFILE_CRITICAL_SECTIONS
 						str_container	():cs(MUTEX_PROFILE_ID(str_container)){}
 #endif // PROFILE_CRITICAL_SECTIONS
