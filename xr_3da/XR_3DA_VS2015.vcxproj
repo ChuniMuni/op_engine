@@ -651,6 +651,7 @@
     <ClInclude Include="CBlinker.h" />
     <ClInclude Include="CMultiFonts.h" />
     <ClInclude Include="CMultiHUDs.h" />
+    <ClInclude Include="LanguagesManager.h" />
     <ClInclude Include="_d3d_extensions.h" />
     <ClInclude Include="CopyProtection.h" />
     <ClInclude Include="defines.h" />
@@ -777,6 +778,7 @@
     <ClCompile Include="CMultiFonts.cpp" />
     <ClCompile Include="CMultiHUDs.cpp" />
     <ClCompile Include="defines.cpp" />
+    <ClCompile Include="LanguagesManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Dedicated|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

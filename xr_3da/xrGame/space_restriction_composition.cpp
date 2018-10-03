@@ -49,6 +49,9 @@ struct CMergePredicate {
 
 IC	void CSpaceRestrictionComposition::merge	(CBaseRestrictionPtr restriction)
 {
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+	Msg("CSpaceRestrictionComposition::merge");
+#endif
 	m_restrictions.push_back	(restriction);
 	m_border.insert				(m_border.begin(),restriction->border().begin(),restriction->border().end());
 }

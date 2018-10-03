@@ -710,13 +710,23 @@ bool CScriptGameObject::attach_grenadelauncher(LPCSTR addon_section)
 {
 	return attach_addon_local(&object(), CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher, addon_section);;
 }
-u32 CScriptGameObject::GetCurrentAmmoType()
+
+u8 CScriptGameObject::GetCurrentAmmoType()
 {
 	CWeapon		*weapon = smart_cast<CWeapon*>(&object());
 	if (weapon)
 		return weapon->m_ammoType;
 	ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "call [current_ammo_type] for non-CWeapon object!");
-	return (u32)-1;
+	return static_cast<u8>(-1);
+}
+
+u32 CScriptGameObject::GetCurrentWeaponState()
+{
+	CWeapon		*weapon = smart_cast<CWeapon*>(&object());
+	if (weapon)
+		return (u32)weapon->GetState();
+	ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "call [get_weapon_state] for non-CWeapon object!");
+	return (u32)CWeapon::EWeaponStates::eIdle;
 }
 
 LPCSTR CScriptGameObject::GetCurrentAmmoSection()
@@ -955,6 +965,7 @@ class_<CScriptGameObject> &script_register_game_object3(class_<CScriptGameObject
 		.def("full_unload_weapon", &CScriptGameObject::FullUnloadWeapon)
 		.def("current_ammo_section", &CScriptGameObject::GetCurrentAmmoSection)
 		.def("current_ammo_type", &CScriptGameObject::GetCurrentAmmoType)
+		.def("get_weapon_state", &CScriptGameObject::GetCurrentWeaponState)
 		.def("detach_scope", &CScriptGameObject::detach_scope)
 		.def("detach_silencer", &CScriptGameObject::detach_silencer)
 		.def("detach_grenadelauncher", &CScriptGameObject::detach_grenadelauncher)

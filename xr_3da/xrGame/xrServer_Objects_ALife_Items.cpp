@@ -575,6 +575,16 @@ u32	CSE_ALifeItemWeapon::ef_main_weapon_type() const
 	return	(m_ef_main_weapon_type);
 }
 
+u8	CSE_ALifeItemWeapon::current_ammo_type() 
+{
+	return ammo_type;
+}
+
+u8	CSE_ALifeItemWeapon::get_weapon_state() 
+{
+	return wpn_state;
+}
+
 u32	CSE_ALifeItemWeapon::ef_weapon_type() const
 {
 	VERIFY	(m_ef_weapon_type != u32(-1));

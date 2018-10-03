@@ -103,6 +103,7 @@ void CLevel::g_sv_Spawn		(CSE_Abstract* E)
 
 	// Client spawn
 //	T.Start		();
+
 	CObject*	O		= Objects.Create	(*E->s_name);
 	// Msg				("--spawn--CREATE: %f ms",1000.f*T.GetAsync());
 	TSP_END("g_sv_Spawn_1", "spawn");

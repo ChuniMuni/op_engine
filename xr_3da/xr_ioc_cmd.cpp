@@ -16,6 +16,7 @@
 #include "xr_object.h"
 #include "../build_defines.h"
 #include "CMultiHUDs.h"
+#include "LanguagesManager.h"
 
 
 xr_token							snd_freq_token							[ ]={
@@ -506,7 +507,6 @@ public:
 ENGINE_API float	psHUD_FOV=0.45f;
 
 xr_vector<xr_token>	vid_font_profile_tokens;
-xr_vector<xr_token>	languages_tokens;
 extern int			psSkeletonUpdate;
 extern int			rsDVB_Size;
 extern int			rsDIB_Size;
@@ -527,7 +527,7 @@ void CCC_Register()
 {
 	// General
 	CMD3(CCC_VectorToken, "font_profile", &psCurrentFontProfileIndex, &vid_font_profile_tokens);
-	CMD3(CCC_VectorToken, "g_lang", &psCurrentLanguageIndex, &languages_tokens);
+	CMD3(CCC_VectorToken, "g_lang", &langManager->currentLangIndex, &langManager->langTokens);
 #pragma region check multihud support
 	if (multiHUDs->EnabledMultiHUDs())
 	{

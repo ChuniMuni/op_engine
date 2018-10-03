@@ -203,6 +203,16 @@ CSightParams CScriptGameObject::sight_params	()
 	return							(result);
 }
 
+bool CScriptGameObject::already_dead()
+{
+	CCustomMonster *custom_monster = smart_cast<CCustomMonster*>(&object());
+	if (!custom_monster) {
+		ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "CCustomMonster : cannot access class member already_dead!");
+		return (false);
+	}
+	return custom_monster->already_dead();
+}
+
 bool CScriptGameObject::critically_wounded		()
 {
 	CCustomMonster						*custom_monster = smart_cast<CCustomMonster*>(&object());

@@ -94,6 +94,8 @@ void CSE_ALifeItemWeapon::script_register(lua_State *L)
 			CSE_ALifeItem
 		)
 		.def("get_addon_state", &CSE_ALifeItemWeapon::get_addon_state)
+		.def("get_weapon_state", &CSE_ALifeItemWeapon::get_weapon_state)
+		.def("current_ammo_type", &CSE_ALifeItemWeapon::current_ammo_type)
 	];
 }
 

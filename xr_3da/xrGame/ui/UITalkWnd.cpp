@@ -20,6 +20,7 @@
 #include "../../cameraBase.h"
 #include "UIXmlInit.h"
 #include "../OPFuncs/utils.h"
+#include "../../LanguagesManager.h"
 
 CUITalkWnd::CUITalkWnd()
 {
@@ -406,12 +407,15 @@ void CUITalkWnd::PlaySnd(LPCSTR text)
 	if(xr_strlen(text) == 0) return;
 	StopSnd						();
 	
-	string_path	fn;
-	strconcat(sizeof(fn),fn, "characters_voice\\dialogs\\", text, ".ogg");
-	if(FS.exist("$game_sounds$",fn)){
+	string_path	fnb;
+	strconcat(sizeof(fnb), fnb, "\\characters_voice\\dialogs\\", text, ".ogg");
+	xr_string file = langManager->SetupSoundFile(fnb).c_str();
+	if(FS.exist("$game_sounds$", file.c_str()))
+	{
 		VERIFY(m_pActor);
-		if (!m_pActor->OnDialogSoundHandlerStart(m_pOthersInvOwner,fn)) {
-			m_sound.create(fn,st_Effect,sg_SourceType);
+		if (!m_pActor->OnDialogSoundHandlerStart(m_pOthersInvOwner, file.c_str()))
+		{
+			m_sound.create(file.c_str(),st_Effect,sg_SourceType);
 			m_sound.play(0,sm_2D);
 		}
 	}

@@ -958,7 +958,7 @@ LONG WINAPI UnhandledFilter	(_EXCEPTION_POINTERS *pExceptionInfo)
 		{
 			// dump string to see what garbage rots there
 			g_pStringContainer->dump();
-			handler_base("std: out of memory. В папке с логами создан str_dump.txt. Поделитесь ЭТИМ ФАЛОМ и ЛОГОМ ВЫЛЕТА с разработчиками мода.");
+			handler_base("std: out of memory. В папке с логами создан str_dump.txt. Поделитесь ЭТИМ ФАЙЛОМ и ЛОГОМ ВЫЛЕТА с разработчиками мода.");
 		}
 		else
 			handler_base("std: out of memory");

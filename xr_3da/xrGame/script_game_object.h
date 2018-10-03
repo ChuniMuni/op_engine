@@ -80,6 +80,7 @@ class CHolderCustom;
 struct ScriptCallbackInfo;
 struct STasks;
 class CCar;
+class CWeapon;
 class CGBox;
 class CExoOutfit;
 class CDangerObject;
@@ -361,6 +362,7 @@ public:
 #pragma endregion 
 #pragma region работа с инфопорциями 
 	void AddArticle(LPCSTR article_id);
+	bool ArticleExist(LPCSTR article_id);
 	bool				GiveInfoPortion(LPCSTR info_id);
 	bool				DisableInfoPortion(LPCSTR info_id);
 	bool				GiveGameNews(LPCSTR news, LPCSTR texture_name, Frect tex_rect, int delay, int show_time);
@@ -442,7 +444,8 @@ public:
 	bool has_grenadelauncher() const;
 	bool get_grenade_mode();
 	LPCSTR GetCurrentAmmoSection();
-	u32 GetCurrentAmmoType();
+	u8 GetCurrentAmmoType();
+	u32 GetCurrentWeaponState();
 	void FullUnloadWeapon(luabind::object const &param);
 	float GetSilencerCondition();
 	void SetSilencerCondition(float condition);
@@ -623,6 +626,7 @@ public:
 	bool				movement_enabled();
 
 	bool				critically_wounded();
+	bool				already_dead();
 
 	bool				invulnerable() const;
 	void				invulnerable(bool invulnerable);

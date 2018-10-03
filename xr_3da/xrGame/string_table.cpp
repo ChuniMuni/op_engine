@@ -12,6 +12,7 @@
 #include "ai_space.h"
 #include "script_engine.h"
 #include "OPFuncs/utils.h"
+#include "../LanguagesManager.h"
 
 STRING_TABLE_DATA* CStringTable::pData = nullptr;
 BOOL CStringTable::m_bWriteErrorsToLog = FALSE;
@@ -41,7 +42,7 @@ void CStringTable::Init		()
 {
 	if(nullptr != pData) return;
 	m_currentLanguageTag = "string:";
-	m_currentLanguageTag.append(languages_tokens[psCurrentLanguageIndex].name);
+	m_currentLanguageTag.append(langManager->GetCurrentLangName());
 
 	pData				= xr_new<STRING_TABLE_DATA>();
 	

@@ -327,7 +327,7 @@ void CALifeSimulator__release					(CALifeSimulator *pself, CSE_Abstract *object,
 
 void CALifeSimulator___release					(CALifeSimulator *pself, CSE_Abstract *object)
 {
-	 CALifeSimulator__release(pself,object,true);
+	CALifeSimulator__release(pself,object,true);
 }
 
 

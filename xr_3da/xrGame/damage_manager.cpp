@@ -64,6 +64,11 @@ void CDamageManager::reload(LPCSTR section,LPCSTR line,CInifile* ini)
 void CDamageManager::init_bones(LPCSTR section,CInifile* ini)
 {
 	CKinematics				*kinematics = smart_cast<CKinematics*>(m_object->Visual());
+	if (!kinematics)
+	{
+		Msg("! ERROR kinematics object for [%s]", m_object->cName().c_str());
+		FATAL("ENGINE crash! See log for detail!");
+	}
 	VERIFY					(kinematics);
 	for(u16 i = 0; i<kinematics->LL_BoneCount(); i++)
 	{

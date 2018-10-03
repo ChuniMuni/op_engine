@@ -88,7 +88,7 @@ void CSpaceRestrictionShape::fill_shape		(const CCF_Shape::shape_def &shape)
 			Q.mul_43				(m_restrictor->XFORM(),shape.data.box);
 			Fvector					temp;
 			for (int i=0; i<8; ++i) {
-                Q.transform_tiny	(temp,points[i]);
+				Q.transform_tiny	(temp,points[i]);
 				start.x				= _min(start.x,temp.x);
 				start.y				= _min(start.y,temp.y);
 				start.z				= _min(start.z,temp.z);

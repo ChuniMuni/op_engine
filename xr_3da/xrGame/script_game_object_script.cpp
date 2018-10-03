@@ -14,6 +14,7 @@
 #include "inventory_space.h"
 #include "ui/UICellItem.h"
 #include "GameObject.h"
+#include "Weapon.h"
 #include "Inventory.h"
 
 using namespace luabind;
@@ -59,7 +60,29 @@ void CScriptGameObject::script_register(lua_State *L)
 				)
 			)
 		),
+		
+		class_<enum_exporter<CWeapon::EWeaponStates> >("EWeaponStates")
+				.enum_("EWeaponStates")
+				[
+					value("eIdle",				int(CWeapon::EWeaponStates::eIdle)),
+					value("eFire",				int(CWeapon::EWeaponStates::eFire)),
+					value("eFire2",				int(CWeapon::EWeaponStates::eFire2)),
+					value("eReload",			int(CWeapon::EWeaponStates::eReload)),
+					value("eShowing",			int(CWeapon::EWeaponStates::eShowing)),		
+					value("eHiding",			int(CWeapon::EWeaponStates::eHiding)),		
+					value("eHidden",			int(CWeapon::EWeaponStates::eHidden)),		
+					value("eMisfire",			int(CWeapon::EWeaponStates::eMisfire)),		
+					value("eMagEmpty",			int(CWeapon::EWeaponStates::eMagEmpty)),		
+					value("eSwitch",			int(CWeapon::EWeaponStates::eSwitch)),		
+					value("eDetachScope",		int(CWeapon::EWeaponStates::eDetachScope)),
+					value("eAttachScope",		int(CWeapon::EWeaponStates::eAttachScope)),	
+					value("eDetachGL",			int(CWeapon::EWeaponStates::eDetachGL)),
+					value("eAttachGL",			int(CWeapon::EWeaponStates::eAttachGL)),		
+					value("eProcessScope",		int(CWeapon::EWeaponStates::eProcessScope)),
+					value("eProcessGL",			int(CWeapon::EWeaponStates::eProcessGL))
+				],
 
+		
 		class_<enum_exporter<GameObject::ECallbackType> >("callback")
 			.enum_("callback_types")
 			[

@@ -38,6 +38,20 @@
 #include "UI.h"
 #include "Artifact.h"
 
+
+bool CScriptGameObject::ArticleExist(LPCSTR article_id)
+{
+	CActor* actor = smart_cast<CActor*>(&object());
+	if (!actor)
+		return false;
+	ARTICLE_VECTOR& article_vector = actor->encyclopedia_registry->registry().objects();
+	ARTICLE_VECTOR::iterator articles = std::find_if(article_vector.begin(), article_vector.end(), [&](ARTICLE_DATA data)
+	{
+		return xr_strcmp(data.article_id, article_id) == 0;
+	});
+	return articles != article_vector.end();
+}
+
 void CScriptGameObject::AddArticle(LPCSTR article_id)
 {
 	CActor* actor = smart_cast<CActor*>(&object());

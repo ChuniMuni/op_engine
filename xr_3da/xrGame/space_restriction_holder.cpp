@@ -105,7 +105,10 @@ SpaceRestrictionHolder::CBaseRestrictionPtr CSpaceRestrictionHolder::restriction
 
 	CSpaceRestrictionBase	*composition = xr_new<CSpaceRestrictionComposition>(this,space_restrictors);
 	CSpaceRestrictionBridge	*bridge = xr_new<CSpaceRestrictionBridge>(composition);
-	m_restrictions.insert	(std::make_pair(space_restrictors,bridge));
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+
+#endif
+	m_restrictions.insert(std::make_pair(space_restrictors, bridge));
 	return					(bridge);
 }
 
@@ -121,7 +124,7 @@ void CSpaceRestrictionHolder::register_restrictor				(CSpaceRestrictor *space_re
 	if (restrictor_type != RestrictionSpace::eDefaultRestrictorTypeNone) 
 	{
 		TSP_SCOPED(__, "CSpaceRestrictionHolder::register_restrictor_1", "spawn");
-		shared_str				*temp = 0, temp1;
+		shared_str				*temp = nullptr, temp1;
 		if (restrictor_type == RestrictionSpace::eDefaultRestrictorTypeOut)
 			temp			= &m_default_out_restrictions;
 		else
@@ -144,7 +147,9 @@ void CSpaceRestrictionHolder::register_restrictor				(CSpaceRestrictor *space_re
 			//strconcat(sizeof(m_temp_string), m_temp_string, **temp, *space_restrictors);
 		}
 		*temp				= normalize_string(m_temp_string.c_str());
-		
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+		Msg("CSpaceRestrictionHolder::register_restrictor check restrictor diff [%s][%s]",temp->c_str(),temp1.c_str());
+#endif
 		if (xr_strcmp(*temp,temp1))
 		{
 			TSP_SCOPED(__,"CSpaceRestrictionHolder::register_restrictor_1_3", "spawn");
@@ -158,6 +163,9 @@ void CSpaceRestrictionHolder::register_restrictor				(CSpaceRestrictor *space_re
 	if (I == m_restrictions.end()) {
 		CSpaceRestrictionBridge	*bridge = xr_new<CSpaceRestrictionBridge>(shape);
 		m_restrictions.insert	(std::make_pair(space_restrictors,bridge));
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+		Msg("CSpaceRestrictionHolder::register_restrictor restrictor register [%s]", space_restrictors.c_str());
+#endif
 		return;
 	}
 
@@ -194,6 +202,8 @@ void CSpaceRestrictionHolder::unregister_restrictor			(CSpaceRestrictor *space_r
 	shared_str				restrictor_id = space_restrictor->cName();
 	RESTRICTIONS::iterator	I = m_restrictions.find(restrictor_id);
 	VERIFY					(I != m_restrictions.end());
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+#endif
 	m_restrictions.erase	(I);
 
 	if (try_remove_string(m_default_out_restrictions,restrictor_id))
@@ -205,7 +215,10 @@ void CSpaceRestrictionHolder::unregister_restrictor			(CSpaceRestrictor *space_r
 
 	CSpaceRestrictionBase	*composition = xr_new<CSpaceRestrictionComposition>(this,restrictor_id);
 	CSpaceRestrictionBridge	*bridge = xr_new<CSpaceRestrictionBridge>(composition);
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+#endif
 	m_restrictions.insert	(std::make_pair(restrictor_id,bridge));
+
 
 	collect_garbage			();
 }
@@ -219,6 +232,8 @@ IC	void CSpaceRestrictionHolder::collect_garbage			()
 			J				= I;
 			++I;
 			xr_delete		((*J).second);
+#ifdef DEBUG_RESTRICTORS_GLOBAL
+#endif
 			m_restrictions.erase(J);
 		}
 		else

@@ -17,6 +17,7 @@
 #include "sound_collection_storage.h"
 #include "object_broker.h"
 #include "../../xrCore/OPFuncs/ExpandedCmdParams.h"
+#include "../LanguagesManager.h"
 
 CSoundPlayer::CSoundPlayer			(CObject *object)
 {
@@ -236,6 +237,8 @@ IC	Fvector CSoundPlayer::compute_sound_point(const CSoundSingle &sound)
 	return						(l_tMatrix.c);
 }
 
+
+
 CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &params)
 {
 	m_last_sound_id						= u32(-1);
@@ -247,16 +250,20 @@ CSoundPlayer::CSoundCollection::CSoundCollection	(const CSoundCollectionParams &
 		LPSTR							S = (LPSTR)&s;
 		_GetItem						(*params.m_sound_prefix,j,temp);
 		strconcat						(sizeof(s),S,*params.m_sound_player_prefix,temp);
-		if (FS.exist(fn,"$game_sounds$",S,".ogg")) {
-			ref_sound					*temp2 = add(params.m_type,S);
+		xr_string fname = langManager->SetupSoundFileExt(S,".ogg").c_str();
+		if (FS.exist(fn,"$game_sounds$", fname.c_str(),".ogg"))
+		{
+			ref_sound					*temp2 = add(params.m_type, fname.c_str());
 			if (temp2)
 				m_sounds.push_back		(temp2);
 		}
-		for (u32 i=0; i<params.m_max_count; ++i){
+		for (u32 i=0; i<params.m_max_count; ++i)
+		{
 			string256					name;
 			sprintf_s						(name,"%s%d",S,i);
-			if (FS.exist(fn,"$game_sounds$",name,".ogg")){
-				ref_sound				*temp_rs = add(params.m_type,name);
+			xr_string fnamec = langManager->SetupSoundFileExt(name, ".ogg").c_str();
+			if (FS.exist(fn,"$game_sounds$", fnamec.c_str(),".ogg")){
+				ref_sound				*temp_rs = add(params.m_type, fnamec.c_str());
 				if (temp_rs)
 					m_sounds.push_back	(temp_rs);
 			}

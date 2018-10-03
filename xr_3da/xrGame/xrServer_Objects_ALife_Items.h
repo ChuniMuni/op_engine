@@ -214,8 +214,9 @@ SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeItemWeapon,CSE_ALifeItem)
 	u16								get_ammo_total		();
 	u16								get_ammo_elapsed	();
 	u16								get_ammo_magsize	();
-	u8	get_addon_state();
-
+	u8 current_ammo_type();
+	u8 get_addon_state();
+	u8 get_weapon_state();
 	virtual BOOL					Net_Relevant		();
 
 	virtual CSE_ALifeItemWeapon		*cast_item_weapon	() {return this;}

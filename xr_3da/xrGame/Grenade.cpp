@@ -56,12 +56,15 @@ BOOL CGrenade::net_Spawn(CSE_Abstract* DC)
 	TSP_SCOPED(_, "CGrenade::net_Spawn", "spawn");
 	m_dwGrenadeIndependencyTime			= 0;
 	BOOL ret= inherited::net_Spawn		(DC);
-	Fvector box;BoundingBox().getsize	(box);
+	Fvector box;
+	BoundingBox().getsize	(box);
 	float max_size						= _max(_max(box.x,box.y),box.z);
 	box.set								(max_size,max_size,max_size);
 	box.mul								(3.f);
 	CExplosive::SetExplosionSize		(box);
 	m_thrown							= false;
+	if (!fsimilar(m_fCondition, 1.0f)) //winsor: strange bug :) but... fixed!
+		m_fCondition = 1.0f;
 	return								ret;
 }
 

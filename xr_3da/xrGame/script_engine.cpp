@@ -77,6 +77,7 @@ void CScriptEngine::lua_error			(lua_State *L)
 	LPCSTR traceback = get_lua_traceback(L, 1);
 	const char *error = lua_tostring(L, -1);
 	Debug.fatal(DEBUG_INFO, "LUA error: %s \n %s ", error ? error : "NULL", traceback);
+	ai().script_engine().print_stack();
 
 #else
 	throw					lua_tostring(L,-1);

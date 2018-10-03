@@ -139,6 +139,9 @@
     <Filter Include="Engine\Noise">
       <UniqueIdentifier>{cb7af14a-44a9-4659-9bb9-9110f09feca8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game API\Languages">
+      <UniqueIdentifier>{981b8271-032a-45d4-82df-2913af8c7791}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_d3d_extensions.h">
@@ -509,6 +512,9 @@
     </ClInclude>
     <ClInclude Include="CBlinker.h">
       <Filter>Game API\Demo</Filter>
+    </ClInclude>
+    <ClInclude Include="LanguagesManager.h">
+      <Filter>Game API\Languages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -892,6 +898,9 @@
     </ClCompile>
     <ClCompile Include="CBlinker.cpp">
       <Filter>Game API\Demo</Filter>
+    </ClCompile>
+    <ClCompile Include="LanguagesManager.cpp">
+      <Filter>Game API\Languages</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

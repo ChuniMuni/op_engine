@@ -24,7 +24,7 @@
 #include "../xrCore/OPFuncs/op_engine_version.h"
 #include "../xrCore/FTimerStat.h"
 #include "CMultiHUDs.h"
-
+#include "LanguagesManager.h"
 
 
 //---------------------------------------------------------------------
@@ -154,48 +154,8 @@ void InitSettings	()
 		last->id = vid_font_profile_tokens.size()-1;
 	}
 #pragma endregion 
-#pragma region load language definitions
-	if (!pSettings->section_exist("languages"))
-	{
-		Msg("! ERROR Cannot find required section [%s]", "languages");
-		FATAL("Invalid required configuration! See log for detail.");
-	}
-	if (!pSettings->line_exist("languages", "default"))
-	{
-		Msg("! ERROR Cannot find required default language[%s]", "default");
-		FATAL("Invalid required configuration! See log for detail.");
-	}
-	LPCSTR defaultLang=pSettings->r_string("languages","default");
-	for (int idx = 0; idx<static_cast<int>(pSettings->line_count("languages")); idx++) 
-	{
-		LPCSTR langId, textId;
-		if (pSettings->r_line("languages", idx, &langId, &textId))
-		{
-			if (xr_strcmp(langId, "default") == 0)
-			{
-				continue;
-			}
-			languages_tokens.push_back(xr_token());
-			xr_token* last = &languages_tokens.back();
-			last->name = xr_strdup(langId);
-			last->id = languages_tokens.size() - 1;
-		}
-	}
-	xr_vector<xr_token>::iterator defLangIter;
-	if (psCurrentLanguageIndex==(u32)-1 && (defLangIter=std::find_if(languages_tokens.begin(), languages_tokens.end(),[&](xr_token token)
-	{
-		return xr_strcmp(token.name, defaultLang) == 0;
-	}))!= languages_tokens.end())
-	{
-		psCurrentLanguageIndex = std::distance(languages_tokens.begin(),defLangIter);
-	}
-	else
-	{
-		Msg("! ERROR Cannot find configured default language[%s]!", defaultLang);
-		FATAL("Invalid required configuration! See log for detail.");
-	}
-#pragma endregion 
 	multiHUDs = xr_new<CMultiHUDs>();
+	langManager = xr_new<CLanguagesManager>();
 }
 
 void InitConsole	()
@@ -234,7 +194,7 @@ void destroyInput	()
 }
 void InitSound		()
 {
-	CSound_manager_interface::_create					(u64(Device.m_hWnd), languages_tokens[psCurrentLanguageIndex].name);
+	CSound_manager_interface::_create					(u64(Device.m_hWnd), langManager->GetCurrentLangName());
 //	Msg				("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 //	ref_sound*	x	= 
 }
@@ -347,6 +307,7 @@ void Startup					( )
 	else
 		Console->Reset();
 	xr_delete(multiHUDs);
+	xr_delete(langManager);
 	destroyEngine();
 }
 
